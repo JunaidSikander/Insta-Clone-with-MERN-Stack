@@ -1,0 +1,14 @@
+{
+  "name": "insta-clone",
+  "version": "1.0.0",
+  "description": "Instagram Clone using mern stack",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Junaid Sikander Hakro",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
