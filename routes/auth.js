@@ -22,4 +22,23 @@ authRouter.post('/signup', (req,res) => {
     
 });
 
+authRouter.post('/signin',(req,res) => {
+    const {email,password} = req.body;
+    if(!email || !password)
+        return res.status(422).json({message: {msgBody: "Please add email or password" , msgError: true}})
+    User.findOne({email}, (err,user) => {
+        if(err)
+            return res.status(402).json({message: {msgBody: "Some error occured while finding user" , msgError: true}});
+        if(!user)
+            return res.status(402).json({message: {msgBody: "User does not exists with this email" , msgError: true}})
+        user.comparePassword(password, (err, user) => {
+            if(err)
+                console.log(err);
+            if(!user)
+                return res.status(402).json({message: {msgBody: "incorrect password" , msgError: true}});
+            return  res.status(200).json({message: {msgBody: "Successfully Login" , msgError: false}});
+        });
+    })
+
+})
 module.exports = authRouter;
