@@ -1,44 +1,59 @@
-const express = require('express')
-const authRouter = express.Router()
-const User = require('../models/user')
+const express = require('express');
+const authRouter = express.Router();
+const User = require('../models/user');
+const JWT = require('jsonwebtoken');
+const passport = require('passport');
+const passportConfig = require('../middlewares/passport');
+const {JWT_SECRET} = require('../dev');
 
-authRouter.post('/signup', (req,res) => {
-    const {name, email, password} = req.body
-    if(!email || !password || !name)
+const signToken = userID => {
+    return JWT.sign({
+        iss: 'junaid',
+        sub: userID
+    }, JWT_SECRET, {expiresIn: '1h'})
+};
+
+authRouter.post('/signup', (req, res) => {
+    const {name, email, password} = req.body;
+    if (!email || !password || !name)
         return res.status(422).json({message: {msgBody: "Please add all the fields", msgError: true}});
-    User.findOne({email}, (err,user) => {
-        if(err)
+    User.findOne({email}, (err, user) => {
+        if (err)
             return res.status(500).json({message: {msgBody: "Some error has occured", msgError: true}});
-        if(user)
+        if (user)
             return res.status(422).json({message: {msgBody: "User is already exists with this email", msgError: true}});
         newUser = new User({name, email, password})
         newUser.save(err => {
-            if(err)
+            if (err)
                 return res.status(500).json({message: {msgBody: "Some error occured while saving", msgError: true}});
             else
-               return res.status(200).json({message: {msgBody: "Account Saved Successfully", msgError: false}}) 
+                return res.status(200).json({message: {msgBody: "Account Saved Successfully", msgError: false}})
         })
     })
-    
+
 });
 
-authRouter.post('/signin',(req,res) => {
-    const {email,password} = req.body;
-    if(!email || !password)
-        return res.status(422).json({message: {msgBody: "Please add email or password" , msgError: true}})
-    User.findOne({email}, (err,user) => {
-        if(err)
-            return res.status(402).json({message: {msgBody: "Some error occured while finding user" , msgError: true}});
-        if(!user)
-            return res.status(402).json({message: {msgBody: "User does not exists with this email" , msgError: true}})
-        user.comparePassword(password, (err, user) => {
-            if(err)
-                console.log(err);
-            if(!user)
-                return res.status(402).json({message: {msgBody: "incorrect password" , msgError: true}});
-            return  res.status(200).json({message: {msgBody: "Successfully Login" , msgError: false}});
-        });
-    })
+authRouter.post('/signin', (req, res) => {
+    const {email, password} = req.body;
+    if (!email || !password)
+        return res.status(422).json({message: {msgBody: "Please add email or password", msgError: true}});
+    passport.authenticate("local", function (err, user, info) {
+        if (err)
+            return res.status(402).json({
+                message: {
+                    msgBody: "Some error occurred while authenticating",
+                    msgError: true
+                }
+            });
+        if (user) {
+            const {_id, email,name} = user;
+            const token = signToken(_id);
+            res.cookie('access_token', token, {httpOnly: true, sameSite: true});
+            res.status(200).json({isAuthenticated: true, user: {name,email}});
+        } else {
+            res.status(401).json(info);
+        }
+    })(req, res);
+});
 
-})
 module.exports = authRouter;
