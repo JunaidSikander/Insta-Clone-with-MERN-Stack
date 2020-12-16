@@ -19,18 +19,17 @@ authRouter.post('/signup', (req, res) => {
         return res.status(422).json({message: {msgBody: "Please add all the fields", msgError: true}});
     User.findOne({email}, (err, user) => {
         if (err)
-            return res.status(500).json({message: {msgBody: "Some error has occured", msgError: true}});
+            return res.status(422).json({message: {msgBody: "Some error has occurred", msgError: true}});
         if (user)
             return res.status(422).json({message: {msgBody: "User is already exists with this email", msgError: true}});
-        newUser = new User({name, email, password})
+        const newUser = new User({name, email, password});
         newUser.save(err => {
             if (err)
-                return res.status(500).json({message: {msgBody: "Some error occured while saving", msgError: true}});
+                return res.status(422).json({message: {msgBody: "Some error occurred while saving", msgError: true}});
             else
                 return res.status(200).json({message: {msgBody: "Account Saved Successfully", msgError: false}})
-        })
-    })
-
+        });
+    });
 });
 
 authRouter.post('/signin', (req, res) => {
@@ -46,10 +45,10 @@ authRouter.post('/signin', (req, res) => {
                 }
             });
         if (user) {
-            const {_id, email,name} = user;
+            const {_id, email, name} = user;
             const token = signToken(_id);
             res.cookie('access_token', token, {httpOnly: true, sameSite: true});
-            res.status(200).json({isAuthenticated: true, user: {name,email}});
+            res.status(200).json({isAuthenticated: true, user: {name, email}});
         } else {
             res.status(401).json(info);
         }
