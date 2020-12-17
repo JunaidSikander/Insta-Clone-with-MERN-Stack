@@ -1,11 +1,13 @@
 import Home from "./Home";
-import Profile from "./Profile";
 import Signin from "./Signin";
 import Signup from "./Signup";
+import Profile from "./Profile";
+import UploadPost from "./UploadPost";
 
 export {
     Home,
-    Profile,
     Signin,
-    Signup
+    Signup,
+    Profile,
+    UploadPost
 };

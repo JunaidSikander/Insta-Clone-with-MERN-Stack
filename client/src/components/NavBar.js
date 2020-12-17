@@ -11,6 +11,7 @@ const NavBar = props => (
                     <li><Link to="/signin">Sign in</Link></li>
                     <li><Link to="/signup">Sign up</Link></li>
                     <li><Link to="/profile">Proflie</Link></li>
+                    <li><Link to="/upload_post">Upload Posts</Link></li>
                 </ul>
             </div>
         </nav>
