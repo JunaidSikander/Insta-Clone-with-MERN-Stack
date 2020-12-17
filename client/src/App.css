@@ -57,3 +57,13 @@ a {
     justify-content: space-around;
     width: 108%;
 }
+
+.home-container {
+
+}
+
+.home-card {
+    max-width: 500px;
+    margin: 26px auto;
+
+}
