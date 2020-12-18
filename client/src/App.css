@@ -69,8 +69,8 @@ a {
 }
 
 .card-center {
-  margin: 30px auto;
-  max-width: 500px;
-  padding: 20px;
-  text-align: center;
+    margin: 30px auto;
+    max-width: 500px;
+    padding: 20px;
+    text-align: center;
 }
