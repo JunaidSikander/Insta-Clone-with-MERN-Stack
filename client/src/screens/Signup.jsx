@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
+import M from 'materialize-css'
 import authService from "../services/authService";
-
 
 const Signup = () => {
     const [user, setUser] = useState({name: "", email: "", password: ""});
@@ -19,7 +19,13 @@ const Signup = () => {
         e.preventDefault();
         authService.signUp(user)
             .then(data => {
-                console.log(data)
+                if (!data)
+                    return M.toast({html: 'Unable to Sign up User'});
+                const {message} = data;
+                if (message.msgError)
+                    return M.toast({html: message.msgBody, classes: '#b71c1c red darken-3'});
+                M.toast({html: message.msgBody});
+                resetForm();
             })
     };
     return (
@@ -27,8 +33,8 @@ const Signup = () => {
             <div className="card auth-card input-field">
                 <h2>Instagram</h2>
                 <form onSubmit={onSubmit}>
-                    <input type="text" placeholder="name" name='name' value={user.name} onChange={onChange}/>
-                    <input type="text" placeholder="email" name='email' value={user.email} onChange={onChange}
+                    <input type="text" placeholder="name" name='name' value={user.name} onChange={onChange} required/>
+                    <input type="email" placeholder="email" name='email' value={user.email} onChange={onChange}
                            required/>
                     <input type="password" placeholder="password" name='password' value={user.password}
                            onChange={onChange} required/>
