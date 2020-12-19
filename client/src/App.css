@@ -58,10 +58,6 @@ a {
     width: 108%;
 }
 
-.home-container {
-
-}
-
 .home-card {
     max-width: 500px;
     margin: 26px auto;
@@ -76,8 +72,9 @@ a {
 }
 
 #toast-container {
-    min-width: 10%;
-    top: 30px;
-    right: 50%;
-    transform: translateX(50%) translateY(50%);
+    /*min-width: 10%;*/
+    top: 30px !important;
+    right: 50% !important;
+    left: auto !important;
+    /*transform: translateX(50%) translateY(50%);*/
 }

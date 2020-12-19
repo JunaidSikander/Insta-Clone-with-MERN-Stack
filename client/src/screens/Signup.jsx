@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import M from 'materialize-css'
 import authService from "../services/authService";
 
-const Signup = () => {
+const Signup = ({history: {push}}) => {
     const [user, setUser] = useState({name: "", email: "", password: ""});
 
     const onChange = e => {
@@ -24,8 +24,9 @@ const Signup = () => {
                 const {message} = data;
                 if (message.msgError)
                     return M.toast({html: message.msgBody, classes: '#b71c1c red darken-3'});
-                M.toast({html: message.msgBody});
+                M.toast({html: message.msgBody, classes: '#43a047 green darken-1'});
                 resetForm();
+                push('/signin');
             })
     };
     return (
