@@ -48,9 +48,13 @@ authRouter.post('/signin', (req, res) => {
             const {_id, email, name} = user;
             const token = signToken(_id);
             res.cookie('access_token', token, {httpOnly: true, sameSite: true});
-            res.status(200).json({isAuthenticated: true, user: {name, email}});
+            res.status(200).json({
+                isAuthenticated: true,
+                user: {name, email},
+                message: {msgBody: 'Successfully Signed In', msgError: false}
+            });
         } else {
-            res.status(401).json(info);
+            res.status(401).json({message: {msgBody: 'unAuthorized Please Signed in', msgError: true}});
         }
     })(req, res);
 });
