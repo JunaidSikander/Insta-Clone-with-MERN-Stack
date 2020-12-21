@@ -5,11 +5,11 @@ import {Home, Profile, Signin, Signup, UploadPost} from './screens';
 import {AuthContext} from "./context/AuthContext";
 
 const Routing = () => {
-    const authContext = useContext(AuthContext);
+    const {isAuthenticated} = useContext(AuthContext);
     const history = useHistory();
 
     useEffect(() => {
-        if(authContext.isAuthenticated)
+        if(isAuthenticated)
             history.push('/');
         else
             history.push('/signin')
