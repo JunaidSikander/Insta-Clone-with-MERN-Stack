@@ -3,10 +3,12 @@ const postsRouter = express.Router();
 const passport = require('passport');
 const Posts = require('../models/posts');
 
-postsRouter.post('/create_post', passport.authenticate('jwt', {session: false}), (req, res) => {
-    const {title, body, photo} = req.body;
-    if (!title || !body || !photo)
+postsRouter.post('/create_post', passport.authenticate('jwt', {session: false}), async (req, res) => {
+     const {title, body, photo} = req.body;
+    if (!title || !body)
         return res.status(422).json({message: {msgBody: "Please add all the fields", msgError: true}});
+    if(!photo)
+        return res.status(422).json({message: {msgBody: "Please wait picture is uploading", msgError: true}});
     const newPost = new Posts({
         title,
         body,
