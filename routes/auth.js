@@ -59,4 +59,8 @@ authRouter.post('/signin', (req, res) => {
     })(req, res);
 });
 
+authRouter.get('/authenticated', passport.authenticate('jwt', {session: false}), (req, res) => {
+    const {_id, name, email} = req.user;
+    res.status(200).json({isAuthenticated: true, user: {_id,name,email}})
+});
 module.exports = authRouter;

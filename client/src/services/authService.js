@@ -20,5 +20,14 @@ export default {
             }
         }).then(res => res.json())
             .then(data => data)
+    },
+    isAuthenticated: async () => {
+        return await fetch('/authenticated')
+            .then(res => {
+                if(res.status !== 401)
+                    return res.json().then(data => data);
+                else
+                    return {isAuthenticated: false, user: {username : "", role : ""}};
+            })
     }
 };
