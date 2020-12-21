@@ -21,7 +21,7 @@ const Signin = ({history: {push}}) => {
         authService.signIn(user)
             .then(data => {
                 if (!data)
-                    return M.toast({html: 'Unable to Sign in User'});
+                    return M.toast({html: 'Unable to Sign in User', classes: '#b71c1c red darken-3'});
                 const {message} = data;
                 if (message.msgError)
                     return M.toast({html: message.msgBody, classes: '#b71c1c red darken-3'});
