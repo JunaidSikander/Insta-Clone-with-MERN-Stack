@@ -11,8 +11,6 @@ const Routing = () => {
     useEffect(() => {
         if (!isAuthenticated)
             history.push('/signin');
-        else
-            history.push('/');
     }, [isAuthenticated, history]);
     return (
         <Switch>
