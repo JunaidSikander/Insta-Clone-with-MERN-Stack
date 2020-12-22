@@ -27,6 +27,11 @@ export default {
             .then(res => res.json())
             .then(data => data)
             .catch(err => console.log(err))
+    },
+    myPost: async () => {
+        return await fetch('/posts/my_posts')
+            .then(res => res.json())
+            .then(data => data)
+            .catch(err => console.log(err))
     }
-
 }
