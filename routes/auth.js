@@ -54,13 +54,17 @@ authRouter.post('/signin', (req, res) => {
                 message: {msgBody: 'Successfully Signed In', msgError: false}
             });
         } else {
-            res.status(401).json({info,message: {msgBody: 'unAuthorized Please Signed in', msgError: true}});
+            res.status(401).json({info, message: {msgBody: 'unAuthorized Please Signed in', msgError: true}});
         }
     })(req, res);
 });
 
 authRouter.get('/authenticated', passport.authenticate('jwt', {session: false}), (req, res) => {
     const {_id, name, email} = req.user;
-    res.status(200).json({isAuthenticated: true, user: {_id,name,email}})
+    res.status(200).json({isAuthenticated: true, user: {_id, name, email}})
+});
+authRouter.get('/logout', passport.authenticate('jwt', {session: false}), (req, res) => {
+    res.clearCookie('access_token');
+    res.json({user: {name: "", email: ""}, success: true});
 });
 module.exports = authRouter;

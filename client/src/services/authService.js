@@ -10,9 +10,8 @@ export default {
             .then(data => data)
             .catch(err => console.log(err))
     },
-
     signIn: async user => {
-        return await fetch('/signin',{
+        return await fetch('/signin', {
             method: 'POST',
             body: JSON.stringify(user),
             headers: {
@@ -24,10 +23,16 @@ export default {
     isAuthenticated: async () => {
         return await fetch('/authenticated')
             .then(res => {
-                if(res.status !== 401)
+                if (res.status !== 401)
                     return res.json().then(data => data);
                 else
-                    return {isAuthenticated: false, user: {name : "", email : ""}};
+                    return {isAuthenticated: false, user: {name: "", email: ""}};
             })
+    },
+    logout: async () => {
+        return await fetch('/logout')
+            .then(res =>res.json())
+            .then(data => data)
+            .catch(err => console.log(err))
     }
 };

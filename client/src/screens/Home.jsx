@@ -8,7 +8,7 @@ const Home = () => {
     useEffect(() => {
         postService.getAllPost()
             .then(posts => setPosts(posts))
-    });
+    },[]);
 
     return(
         <div className="home-container">

@@ -1,4 +1,4 @@
-import React,{useEffect,useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import NavBar from "./components/NavBar";
 import {BrowserRouter as Router, Route, Switch, useHistory} from "react-router-dom";
 import {Home, Profile, Signin, Signup, UploadPost} from './screens';
@@ -9,12 +9,11 @@ const Routing = () => {
     const history = useHistory();
 
     useEffect(() => {
-        if(isAuthenticated)
-            history.push('/');
+        if (!isAuthenticated)
+            history.push('/signin');
         else
-            history.push('/signin')
-    },[]);
-
+            history.push('/');
+    }, [isAuthenticated, history]);
     return (
         <Switch>
             <Route exact path="/" component={Home}/>
@@ -28,10 +27,10 @@ const Routing = () => {
 
 function App() {
     return (
-            <Router>
-                <NavBar/>
-                <Routing/>
-            </Router>
+        <Router>
+            <NavBar/>
+            <Routing/>
+        </Router>
     );
 }
 

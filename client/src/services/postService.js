@@ -23,7 +23,7 @@ export default {
             .catch(err => console.log(err))
     },
     getAllPost: async () => {
-        return fetch('/posts/get_all_posts')
+        return await fetch('/posts/get_all_posts')
             .then(res => res.json())
             .then(data => data)
             .catch(err => console.log(err))
