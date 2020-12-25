@@ -1,4 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
+import M from 'materialize-css';
 import postService from "../services/postService";
 import {AuthContext} from "../context/AuthContext";
 
@@ -15,25 +16,34 @@ const Home = () => {
     const likePost = id => {
         postService.likePost(id)
             .then(result => {
-                const newData = posts.map(post => post._id === result._id ? result : post);
-                setPosts(newData);
+                const newPost = posts.map(post => post._id === result._id ? result : post);
+                setPosts(newPost);
             })
     };
 
     const unlikePost = id => {
         postService.unlikePost(id)
             .then(result => {
-                const newData = posts.map(post => post._id === result._id ? result : post);
-                setPosts(newData);
+                const newPost = posts.map(post => post._id === result._id ? result : post);
+                setPosts(newPost);
             })
     };
 
     const makeComment = (text, postId) => {
         postService.comment(text, postId)
             .then(result => {
-                const newData = posts.map(post => post._id === result._id ? result : post);
-                setPosts(newData);
+                const newPost = posts.map(post => post._id === result._id ? result : post);
+                setPosts(newPost);
             });
+    };
+
+    const deletePost = (postId) => {
+        postService.deletePost(postId)
+            .then(result => {
+                const newPost = posts.filter(post => post._id !== result._id);
+                setPosts(newPost);
+                M.toast({html: 'Post Delete Successful', classes: '#43a047 green darken-1'});
+            })
     };
 
     return (
@@ -42,7 +52,12 @@ const Home = () => {
                 posts.map(post => {
                     return (
                         <div className="card home-card" key={post._id}>
-                            <h5> {post.postedBy.name}</h5>
+                            <h5> {post.postedBy.name}
+                                {
+                                    post.postedBy._id === user._id &&
+                                    <i className="material-icons right" onClick={() => deletePost(post._id)}>delete</i>
+                                }
+                            </h5>
                             <div className="card-image">
                                 <img alt=""
                                      src={post.photo}/>

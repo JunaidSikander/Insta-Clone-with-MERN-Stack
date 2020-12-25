@@ -92,10 +92,23 @@ postsRouter.put('/comment', passport.authenticate('jwt', {session: false}), (req
     }).populate("comments.postedBy", "_id name")
         .populate('postedBy', '_id name')
         .exec((err, post) => {
-            console.log('P ->',post);
+            console.log('P ->', post);
             if (err)
                 return res.status(422).json({message: {msgBody: err, msgError: true}});
             res.status(200).json(post);
+        });
+});
+
+postsRouter.delete('/delete_post/:postId', passport.authenticate('jwt', {session: false}), (req, res) => {
+    Posts.findOne({_id: req.params.postId})
+        .populate('postedBy', '_id')
+        .exec((err, post) => {
+            if (err || !post)
+                return res.status(422).json({message: {msgBody: err, msgError: true}});
+            if (post.postedBy._id.toString() === req.user._id.toString())
+                post.remove()
+                    .then(result => res.status(200).json(result))
+                    .catch(err => res.status(422).json({message: {msgBody: err, msgError: true}}))
         });
 });
 module.exports = postsRouter;

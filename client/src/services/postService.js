@@ -66,5 +66,12 @@ export default {
         }).then(res => res.json())
             .then(data => data)
             .catch(err => console.log(err))
+    },
+    deletePost: async (postId) => {
+        return await fetch(`/posts/delete_post/${postId}`, {
+            method: 'DELETE'
+        }).then(res => res.json())
+            .then(data => data)
+            .catch(err => console.log(err))
     }
 };
