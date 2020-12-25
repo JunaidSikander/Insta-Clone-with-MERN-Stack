@@ -55,5 +55,16 @@ export default {
         }).then(res => res.json())
             .then(data => data)
             .catch(err => console.log(err));
+    },
+    comment: async (text, postId) => {
+        return await fetch('/posts/comment', {
+            method: 'PUT',
+            body: JSON.stringify({text, postId}),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+            .then(data => data)
+            .catch(err => console.log(err))
     }
 };

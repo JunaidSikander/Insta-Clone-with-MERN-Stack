@@ -71,6 +71,10 @@ a {
     text-align: center;
 }
 
+.commentUser {
+    font-weight: 500;
+}
+
 #toast-container {
     /*min-width: 10%;*/
     top: 30px !important;

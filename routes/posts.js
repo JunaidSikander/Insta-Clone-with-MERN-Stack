@@ -79,4 +79,23 @@ postsRouter.put('/unlike', passport.authenticate('jwt', {session: false}), (req,
         res.status(200).json(post);
     });
 });
+
+postsRouter.put('/comment', passport.authenticate('jwt', {session: false}), (req, res) => {
+    const comment = {
+        text: req.body.text,
+        postedBy: req.user
+    };
+    Posts.findByIdAndUpdate(req.body.postId, {
+        $push: {comments: comment}
+    }, {
+        new: true
+    }).populate("comments.postedBy", "_id name")
+        .populate('postedBy', '_id name')
+        .exec((err, post) => {
+            console.log('P ->',post);
+            if (err)
+                return res.status(422).json({message: {msgBody: err, msgError: true}});
+            res.status(200).json(post);
+        });
+});
 module.exports = postsRouter;

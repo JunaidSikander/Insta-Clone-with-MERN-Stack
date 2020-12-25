@@ -28,6 +28,14 @@ const Home = () => {
             })
     };
 
+    const makeComment = (text, postId) => {
+        postService.comment(text, postId)
+            .then(result => {
+                const newData = posts.map(post => post._id === result._id ? result : post);
+                setPosts(newData);
+            });
+    };
+
     return (
         <div className="home-container">
             {
@@ -53,7 +61,20 @@ const Home = () => {
                                 <h6>{post.likes.length} Likes</h6>
                                 <h6>{post.title}</h6>
                                 <p>{post.body}</p>
-                                <input type="text" placeholder="add a comment"/>
+                                {
+                                    post.comments.map(comment => (
+                                        <h6 key={comment._id}>
+                                            <span className='commentUser'> {comment.postedBy.name} </span>
+                                            {comment.text}
+                                        </h6>))
+                                }
+                                <form className='input-field col s3' onSubmit={(e) => {
+                                    e.preventDefault();
+                                    makeComment(e.target[0].value, post._id);
+                                }}>
+                                    <i className="material-icons prefix">comment</i>
+                                    <input type="text" placeholder='add a comment'/>
+                                </form>
                             </div>
                         </div>
                     )
