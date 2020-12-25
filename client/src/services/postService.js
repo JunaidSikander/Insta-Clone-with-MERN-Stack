@@ -33,5 +33,27 @@ export default {
             .then(res => res.json())
             .then(data => data)
             .catch(err => console.log(err))
+    },
+    likePost: async id => {
+        return await fetch('/posts/like', {
+            method: 'PUT',
+            body: JSON.stringify({postId: id}),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+            .then(data => data)
+            .catch(err => console.log(err));
+    },
+    unlikePost: async id => {
+        return await fetch('/posts/unlike', {
+            method: 'PUT',
+            body: JSON.stringify({postId: id}),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+            .then(data => data)
+            .catch(err => console.log(err));
     }
-}
+};

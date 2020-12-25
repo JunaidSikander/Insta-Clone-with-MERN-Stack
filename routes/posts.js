@@ -4,10 +4,10 @@ const passport = require('passport');
 const Posts = require('../models/posts');
 
 postsRouter.post('/create_post', passport.authenticate('jwt', {session: false}), async (req, res) => {
-     const {title, body, photo} = req.body;
+    const {title, body, photo} = req.body;
     if (!title || !body)
         return res.status(422).json({message: {msgBody: "Please add all the fields", msgError: true}});
-    if(!photo)
+    if (!photo)
         return res.status(422).json({message: {msgBody: "Please wait picture is uploading", msgError: true}});
     const newPost = new Posts({
         title,
@@ -54,5 +54,29 @@ postsRouter.get('/my_posts', passport.authenticate('jwt', {session: false}), (re
                 return res.status(422).json({message: {msgBody: "No Post uploaded", msgError: true}});
             return res.status(200).json(posts);
         })
+});
+
+postsRouter.put('/like', passport.authenticate('jwt', {session: false}), (req, res) => {
+    Posts.findByIdAndUpdate(req.body.postId, {
+        $push: {likes: req.user._id}
+    }, {
+        new: true
+    }).exec((err, post) => {
+        if (err)
+            return res.status(422).json({message: {msgBody: 'Error Occurred while updating post', msgError: true}});
+        res.status(200).json(post);
+    });
+});
+
+postsRouter.put('/unlike', passport.authenticate('jwt', {session: false}), (req, res) => {
+    Posts.findByIdAndUpdate(req.body.postId, {
+        $pull: {likes: req.user._id}
+    }, {
+        new: true
+    }).exec((err, post) => {
+        if (err)
+            return res.status(422).json({message: {msgBody: 'Error Occurred while updating post', msgError: true}});
+        res.status(200).json(post);
+    });
 });
 module.exports = postsRouter;
