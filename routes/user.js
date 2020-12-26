@@ -16,31 +16,32 @@ userRouter.get('/:id', passport.authenticate('jwt', {session: false}), (req, res
                         return res.status(422).json({message: {msgBody: err, msgError: true}});
                     return res.status(200).json({user, posts})
                 })
-                .catch(err => console.log(err))
+            .catch(err => console.log(err))
         })
 });
 
-userRouter.put('follow', passport.authenticate('jwt', {session: false}), (req, res) => {
+userRouter.put('/follow', passport.authenticate('jwt', {session: false}), (req, res) => {
     User.findByIdAndUpdate(req.body.followId, {
         $push: {followers: req.user._id}
     }, {
         new: true
-    }, (err, res) => {
+    }, (err, ressult) => {
         if (err)
             return res.status(422).json({message: {msgBody: err, msgError: true}});
         User.findByIdAndUpdate(req.user._id, {
             $push: {following: req.body.followId}
         }, {
             new: true
-        }, (err, result) => {
-            if (err)
-                return res.status(422).json({message: {msgBody: err, msgError: true}})
-            return res.status(200).json(result)
-        })
+        }).select('-password')
+            .exec((err, result) => {
+                if (err)
+                    return res.status(422).json({message: {msgBody: err, msgError: true}});
+                return res.status(200).json(result)
+            })
     })
 });
 
-userRouter.put('unfollow', passport.authenticate('jwt', {session: false}), (req, res) => {
+userRouter.put('/unfollow', passport.authenticate('jwt', {session: false}), (req, res) => {
     User.findByIdAndUpdate(req.body.followId, {
         $pull: {followers: req.user._id}
     }, {

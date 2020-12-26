@@ -5,7 +5,7 @@ import userService from "../services/userService";
 
 const UserProfile = () => {
     const [userProfile, setProfile] = useState(null);
-    const {user} = useContext(AuthContext);
+    const {user, setUser} = useContext(AuthContext);
     const {userId} = useParams();
 
     useEffect(() => {
@@ -13,7 +13,14 @@ const UserProfile = () => {
             .then(profile => {
                 setProfile(profile)
             })
-    }, []);
+    }, [user]);
+
+    const onFollowClick = () => {
+        userService.followUser(userId)
+            .then(result => {
+                setUser({...user, followers: result.followers, following: result.following})
+            });
+    };
 
     return (
         userProfile ?
@@ -31,9 +38,13 @@ const UserProfile = () => {
                             <h5>{userProfile.user.email}</h5>
                             <div className="info-container">
                                 <h6> {userProfile.posts.length} posts</h6>
-                                <h6> 40 followers</h6>
-                                <h6> 40 following</h6>
+                                <h6> {userProfile.user.followers.length} followers</h6>
+                                <h6> {userProfile.user.following.length} following</h6>
                             </div>
+                            <button className="btn waves-effect waves-light #64b5f6 blue lighten-2"
+                                    onClick={onFollowClick}>
+                                Follow User
+                            </button>
                         </div>
                     </div>
                     <div className="gallery">
