@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import M from 'materialize-css';
 import postService from "../services/postService";
 import {AuthContext} from "../context/AuthContext";
+import {Link} from "react-router-dom";
 
 
 const Home = () => {
@@ -52,7 +53,14 @@ const Home = () => {
                 posts.map(post => {
                     return (
                         <div className="card home-card" key={post._id}>
-                            <h5> {post.postedBy.name}
+                            <h5>
+                                <Link to={
+                                    (post.postedBy._id === user._id) ?
+                                        '/profile' :
+                                        `/profile/${[post.postedBy._id]}`
+                                }>
+                                    {post.postedBy.name}
+                                </Link>
                                 {
                                     post.postedBy._id === user._id &&
                                     <i className="material-icons right" onClick={() => deletePost(post._id)}>delete</i>
