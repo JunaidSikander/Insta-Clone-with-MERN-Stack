@@ -19,7 +19,7 @@ export default {
     unfollowUser: async userId => {
         return await fetch('/user/unfollow', {
             method: 'PUT',
-            body: JSON.stringify({followId: userId}),
+            body: JSON.stringify({unfollowId: userId}),
             headers: {
                 'Content-Type': 'application/json'
             }

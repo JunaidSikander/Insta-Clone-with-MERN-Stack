@@ -28,7 +28,7 @@ const UserProfile = () => {
         userService.unfollowUser(userId)
             .then(result => {
                 const newFollower = userProfile.user.followers.filter(list => list !== result._id);
-                setUser({...user, followers: newFollower})
+                setUser({...user, followers: newFollower});
             });
         setToggleButton(true);
     };
