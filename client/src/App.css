@@ -75,6 +75,10 @@ a {
     font-weight: 500;
 }
 
+.button-margin {
+    margin: 10px;
+}
+
 #toast-container {
     /*min-width: 10%;*/
     top: 30px !important;

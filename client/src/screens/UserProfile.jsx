@@ -53,12 +53,12 @@ const UserProfile = () => {
                                 <h6> {userProfile.user.following.length} following</h6>
                             </div>
                             {toggleButton ?
-                                <button className="btn waves-effect waves-light #64b5f6 blue lighten-2"
+                                <button className="btn waves-effect waves-light #64b5f6 blue lighten-2 button-margin"
                                         onClick={onFollowClick}>
                                     Follow
                                 </button>
                                 :
-                                <button className="btn waves-effect waves-light #64b5f6 blue lighten-2"
+                                <button className="btn waves-effect waves-light #64b5f6 blue lighten-2 button-margin"
                                         onClick={onUnFollowClick}>
                                     Unfollow
                                 </button>
