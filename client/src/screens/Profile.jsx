@@ -11,6 +11,7 @@ const Profile = () => {
                 setPosts(posts);
             })
     }, []);
+    console.log(posts);
     return (
         <div className="profile-container">
             <div className='profile-subcontainer'>
@@ -23,9 +24,9 @@ const Profile = () => {
                 <div>
                     <h4>{user.name}</h4>
                     <div className="info-container">
-                        <h6> 40 posts</h6>
-                        <h6> 40 followers</h6>
-                        <h6> 40 following</h6>
+                        <h6> {posts?.length} posts</h6>
+                        <h6> {user.followers.length} followers</h6>
+                        <h6> {user.following.length} following</h6>
                     </div>
                 </div>
             </div>
