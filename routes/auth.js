@@ -45,12 +45,12 @@ authRouter.post('/signin', (req, res) => {
                 }
             });
         if (user) {
-            const {_id, email, name} = user;
+            const {_id, email, name, followers, following} = user;
             const token = signToken(_id);
             res.cookie('access_token', token, {httpOnly: true, sameSite: true});
             res.status(200).json({
                 isAuthenticated: true,
-                user: {name, email},
+                user: {name, email, followers, following},
                 message: {msgBody: 'Successfully Signed In', msgError: false}
             });
         } else {
@@ -60,8 +60,8 @@ authRouter.post('/signin', (req, res) => {
 });
 
 authRouter.get('/authenticated', passport.authenticate('jwt', {session: false}), (req, res) => {
-    const {_id, name, email} = req.user;
-    res.status(200).json({isAuthenticated: true, user: {_id, name, email}})
+    const {_id, name, email, followers, following} = req.user;
+    res.status(200).json({isAuthenticated: true, user: {_id, name, email, followers, following}})
 });
 authRouter.get('/logout', passport.authenticate('jwt', {session: false}), (req, res) => {
     res.clearCookie('access_token');
