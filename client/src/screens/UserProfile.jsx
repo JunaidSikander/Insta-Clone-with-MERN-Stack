@@ -5,6 +5,7 @@ import userService from "../services/userService";
 
 const UserProfile = () => {
     const [userProfile, setProfile] = useState(null);
+    const [toggleButton, setToggleButton] = useState(true);
     const {user, setUser} = useContext(AuthContext);
     const {userId} = useParams();
 
@@ -20,6 +21,16 @@ const UserProfile = () => {
             .then(result => {
                 setUser({...user, followers: result.followers, following: result.following})
             });
+        setToggleButton(false);
+    };
+
+    const onUnFollowClick = () => {
+        userService.unfollowUser(userId)
+            .then(result => {
+                const newFollower = userProfile.user.followers.filter(list => list !== result._id);
+                setUser({...user, followers: newFollower})
+            });
+        setToggleButton(true);
     };
 
     return (
@@ -41,10 +52,18 @@ const UserProfile = () => {
                                 <h6> {userProfile.user.followers.length} followers</h6>
                                 <h6> {userProfile.user.following.length} following</h6>
                             </div>
-                            <button className="btn waves-effect waves-light #64b5f6 blue lighten-2"
-                                    onClick={onFollowClick}>
-                                Follow User
-                            </button>
+                            {toggleButton ?
+                                <button className="btn waves-effect waves-light #64b5f6 blue lighten-2"
+                                        onClick={onFollowClick}>
+                                    Follow
+                                </button>
+                                :
+                                <button className="btn waves-effect waves-light #64b5f6 blue lighten-2"
+                                        onClick={onUnFollowClick}>
+                                    Unfollow
+                                </button>
+                            }
+
                         </div>
                     </div>
                     <div className="gallery">
