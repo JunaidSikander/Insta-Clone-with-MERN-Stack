@@ -5,9 +5,9 @@ import userService from "../services/userService";
 
 const UserProfile = () => {
     const [userProfile, setProfile] = useState(null);
-    const [toggleButton, setToggleButton] = useState(true);
     const {user, setUser} = useContext(AuthContext);
     const {userId} = useParams();
+    const [toggleButton, setToggleButton] = useState(!user?.following.includes(userId));
 
     useEffect(() => {
         userService.getUserProfile(userId)
