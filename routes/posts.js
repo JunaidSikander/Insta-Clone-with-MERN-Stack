@@ -24,6 +24,7 @@ postsRouter.post('/create_post', passport.authenticate('jwt', {session: false}),
 
 postsRouter.get('/get_all_posts', passport.authenticate('jwt', {session: false}), (req, res) => {
     Posts.find()
+        .populate("comments.postedBy", "_id name")
         .populate('postedBy', '_id name')
         .exec((err, posts) => {
             if (err)
