@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {Link} from "react-router-dom";
 import M from 'materialize-css';
 import authService from "../services/authService";
+import {AuthContext} from "../context/AuthContext";
 
 
 const Signin = ({history: {push}}) => {
+    const {setIsAuthenticated} = useContext(AuthContext);
     const [user, setUser] = useState({email: '', password: ''});
 
     const onChange = e => {
@@ -27,6 +29,7 @@ const Signin = ({history: {push}}) => {
                     return M.toast({html: message.msgBody, classes: '#b71c1c red darken-3'});
                 M.toast({html: message.msgBody, classes: '#43a047 green darken-1'});
                 resetForm();
+                setIsAuthenticated(true);
                 push('/');
             })
     };

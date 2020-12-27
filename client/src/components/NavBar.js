@@ -6,7 +6,7 @@ import authService from "../services/authService";
 import M from "materialize-css";
 
 const NavBar = ({history: {push}}) => {
-    const {isAuthenticated} = useContext(AuthContext);
+    const {isAuthenticated, setIsAuthenticated} = useContext(AuthContext);
     const onLogout = () => {
         authService.logout()
             .then(data => {
@@ -14,6 +14,7 @@ const NavBar = ({history: {push}}) => {
                 if (!success)
                     return M.toast({html: 'Unable to Logout User', classes: '#b71c1c red darken-3'});
                 M.toast({html: 'Successfully Logout', classes: '#43a047 green darken-1'});
+                setIsAuthenticated(false);
                 push('/signin');
             })
     };
