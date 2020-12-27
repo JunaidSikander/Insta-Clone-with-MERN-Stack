@@ -29,7 +29,8 @@ const NavBar = ({history: {push}}) => {
                                 <>
                                     <li key='1'><Link to="/profile">Profile</Link></li>
                                     <li key='2'><Link to="/upload_post">Upload Posts</Link></li>
-                                    <li key='3'>
+                                    <li key='3'><Link to="/subscribed_posts">My Following Posts</Link></li>
+                                    <li key='4'>
                                         <button className="btn waves-effect waves-light #b71c1c red darken-3"
                                                 onClick={onLogout}>
                                             Logout

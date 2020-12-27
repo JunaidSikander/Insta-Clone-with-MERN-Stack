@@ -73,5 +73,11 @@ export default {
         }).then(res => res.json())
             .then(data => data)
             .catch(err => console.log(err))
+    },
+    getSubscribedPosts: async () => {
+        return await fetch('/posts/get_subscribed_posts')
+            .then(res => res.json())
+            .then(data => data)
+            .catch(err => console.log(err))
     }
 };

@@ -39,6 +39,23 @@ postsRouter.get('/get_all_posts', passport.authenticate('jwt', {session: false})
         })
 });
 
+postsRouter.get('/get_subscribed_posts', passport.authenticate('jwt', {session: false}), (req, res) => {
+    Posts.find({postedBy: {$in: req.user.following}})
+        .populate('postedBy', '_id name')
+        .exec((err, posts) => {
+            if (err)
+                return res.status(422).json({
+                    message: {
+                        msgBody: "Some error occurred while getting Posts",
+                        msgError: true
+                    }
+                });
+            if (!posts)
+                return res.status(422).json({message: {msgBody: "nothing posted", msgError: true}});
+            return res.status(200).json(posts);
+        })
+});
+
 postsRouter.get('/my_posts', passport.authenticate('jwt', {session: false}), (req, res) => {
     Posts.find({postedBy: req.user._id})
         .populate('postedBy', '_id name')

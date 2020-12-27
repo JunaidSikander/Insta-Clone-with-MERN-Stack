@@ -4,6 +4,7 @@ import Signup from "./Signup";
 import Profile from "./Profile";
 import UserProfile from "./UserProfile";
 import UploadPost from "./UploadPost";
+import SubscribePost from "./SubscribePost";
 
 export {
     Home,
@@ -11,5 +12,6 @@ export {
     Signup,
     Profile,
     UserProfile,
-    UploadPost
+    UploadPost,
+    SubscribePost
 };
