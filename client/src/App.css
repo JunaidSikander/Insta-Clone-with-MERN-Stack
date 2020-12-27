@@ -39,6 +39,10 @@ a {
     margin: 0px auto;
 }
 
+.profile-update {
+    margin: 18px 0px;
+}
+
 .profile-subcontainer {
     display: flex;
     justify-content: space-around;
@@ -81,6 +85,10 @@ a {
 
 .material-icons:hover {
     cursor: pointer;
+}
+
+.profile-button-margin {
+    margin: 20px 30px auto 30px;
 }
 
 #toast-container {

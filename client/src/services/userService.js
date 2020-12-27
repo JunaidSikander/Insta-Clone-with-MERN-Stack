@@ -27,4 +27,15 @@ export default {
             .then(data => data)
             .catch(err => console.log(err))
     },
+    updatePicture: async pic => {
+        return await fetch('/user/update_pic', {
+            method: 'PUT',
+            body: JSON.stringify({pic}),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+            .then(data => data)
+            .catch(err => console.log(err))
+    }
 };

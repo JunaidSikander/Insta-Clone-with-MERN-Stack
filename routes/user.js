@@ -61,4 +61,12 @@ userRouter.put('/unfollow', passport.authenticate('jwt', {session: false}), (req
     })
 });
 
+userRouter.put('/update_pic', passport.authenticate('jwt', {session: false}), (req, res) => {
+    User.findByIdAndUpdate(req.user._id, {$set: {pic: req.body.pic}}, {new: true}, (err, result) => {
+        if (err)
+            return res.status(422).json({message: {msgBody: err, msgError: true}});
+        res.json({message: {msgBody: 'Picture Successfully Updated', msgError: false}})
+    });
+});
+
 module.exports = userRouter;
