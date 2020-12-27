@@ -6,21 +6,21 @@ import {AuthContext} from "../context/AuthContext";
 
 
 const Signin = ({history: {push}}) => {
-    const {setIsAuthenticated} = useContext(AuthContext);
-    const [user, setUser] = useState({email: '', password: ''});
+    const {setIsAuthenticated, setUser} = useContext(AuthContext);
+    const [record, setRecord] = useState({email: '', password: ''});
 
     const onChange = e => {
         e.preventDefault();
-        setUser({...user, [e.target.name]: e.target.value});
+        setRecord({...record, [e.target.name]: e.target.value});
     };
 
     const resetForm = () => {
-        setUser({email: "", password: ""});
+        setRecord({email: "", password: ""});
     };
 
     const onSubmit = e => {
         e.preventDefault();
-        authService.signIn(user)
+        authService.signIn(record)
             .then(data => {
                 if (!data)
                     return M.toast({html: 'Unable to Sign in User', classes: '#b71c1c red darken-3'});
@@ -29,6 +29,7 @@ const Signin = ({history: {push}}) => {
                     return M.toast({html: message.msgBody, classes: '#b71c1c red darken-3'});
                 M.toast({html: message.msgBody, classes: '#43a047 green darken-1'});
                 resetForm();
+                setUser(data.user);
                 setIsAuthenticated(true);
                 push('/');
             })
@@ -39,9 +40,9 @@ const Signin = ({history: {push}}) => {
             <div className="card auth-card input-field">
                 <h2>Instagram</h2>
                 <form onSubmit={onSubmit}>
-                    <input type="email" placeholder="email" name='email' value={user.email} onChange={onChange}
+                    <input type="email" placeholder="email" name='email' value={record.email} onChange={onChange}
                            required/>
-                    <input type="password" placeholder="password" name='password' value={user.password}
+                    <input type="password" placeholder="password" name='password' value={record.password}
                            onChange={onChange} required/>
                     <button className="btn waves-effect waves-light #64b5f6 blue lighten-2" type="submit">
                         Login
