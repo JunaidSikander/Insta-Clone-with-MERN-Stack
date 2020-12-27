@@ -79,6 +79,10 @@ a {
     margin: 10px;
 }
 
+.material-icons:hover {
+    cursor: pointer;
+}
+
 #toast-container {
     /*min-width: 10%;*/
     top: 30px !important;
