@@ -40,7 +40,6 @@ const Signup = ({history: {push}}) => {
         if (image)
             authService.uploadImage(image)
                 .then(url => {
-                    console.log(url);
                     setUser({...user, pic: url})
                 });
         else
