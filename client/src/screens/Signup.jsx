@@ -4,7 +4,7 @@ import M from 'materialize-css'
 import authService from "../services/authService";
 
 const Signup = ({history: {push}}) => {
-    const [user, setUser] = useState({name: "", email: "", password: "", pic: ''});
+    const [user, setUser] = useState({name: "", email: "", password: "", pic: undefined});
     const [image, setImage] = useState('');
 
     useEffect(() => {
