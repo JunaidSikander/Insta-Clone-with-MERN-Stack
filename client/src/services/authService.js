@@ -1,4 +1,16 @@
 export default {
+    uploadImage: async image => {
+        const photoData = new FormData();
+        photoData.append('file', image);
+        photoData.append('upload_preset', 'Insta-Clone');
+        photoData.append('cloud_name', 'junaidsikander');
+        return await fetch('https://api.cloudinary.com/v1_1/junaidsikander/image/upload', {
+            method: 'POST',
+            body: photoData
+        }).then(res => res.json())
+            .then(data => data.url)
+            .catch(err => console.log(err))
+    },
     signUp: async user => {
         return await fetch('/signup', {
             method: 'POST',

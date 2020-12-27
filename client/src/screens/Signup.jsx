@@ -1,10 +1,16 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import M from 'materialize-css'
 import authService from "../services/authService";
 
 const Signup = ({history: {push}}) => {
-    const [user, setUser] = useState({name: "", email: "", password: ""});
+    const [user, setUser] = useState({name: "", email: "", password: "", pic: ''});
+    const [image, setImage] = useState('');
+
+    useEffect(() => {
+        if (user.pic)
+            onSignUp()
+    }, [user.pic]);
 
     const onChange = e => {
         e.preventDefault();
@@ -15,8 +21,7 @@ const Signup = ({history: {push}}) => {
         setUser({name: "", email: "", password: ""});
     };
 
-    const onSubmit = e => {
-        e.preventDefault();
+    const onSignUp = () => {
         authService.signUp(user)
             .then(data => {
                 if (!data)
@@ -29,6 +34,18 @@ const Signup = ({history: {push}}) => {
                 push('/signin');
             })
     };
+
+    const onSubmit = e => {
+        e.preventDefault();
+        if (image)
+            authService.uploadImage(image)
+                .then(url => {
+                    console.log(url);
+                    setUser({...user, pic: url})
+                });
+        else
+            onSignUp();
+    };
     return (
         <div className="card-container">
             <div className="card auth-card input-field">
@@ -39,6 +56,15 @@ const Signup = ({history: {push}}) => {
                            required/>
                     <input type="password" placeholder="password" name='password' value={user.password}
                            onChange={onChange} required/>
+                    <div className="file-field input-field">
+                        <div className="btn #64b5f6 blue lighten-2">
+                            <span>Upload Pic</span>
+                            <input type="file" onChange={(e) => setImage(e.target.files[0])}/>
+                        </div>
+                        <div className="file-path-wrapper">
+                            <input className="file-path validate" type="text"/>
+                        </div>
+                    </div>
                     <button className="btn waves-effect waves-light #64b5f6 blue lighten-2" type="submit">
                         Signup
                     </button>

@@ -1,6 +1,6 @@
 import React, {useContext, useEffect} from 'react';
 import NavBar from "./components/NavBar";
-import {BrowserRouter as Router, Route, Switch, useHistory, Link} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch, useHistory} from "react-router-dom";
 import {Home, Profile, Signin, Signup, SubscribePost, UploadPost, UserProfile} from './screens';
 import {AuthContext} from "./context/AuthContext";
 

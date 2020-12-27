@@ -14,7 +14,7 @@ const signToken = userID => {
 };
 
 authRouter.post('/signup', (req, res) => {
-    const {name, email, password} = req.body;
+    const {name, email, password, pic} = req.body;
     if (!email || !password || !name)
         return res.status(422).json({message: {msgBody: "Please add all the fields", msgError: true}});
     User.findOne({email}, (err, user) => {
@@ -22,7 +22,7 @@ authRouter.post('/signup', (req, res) => {
             return res.status(422).json({message: {msgBody: "Some error has occurred", msgError: true}});
         if (user)
             return res.status(422).json({message: {msgBody: "User is already exists with this email", msgError: true}});
-        const newUser = new User({name, email, password});
+        const newUser = new User({name, email, password, pic});
         newUser.save(err => {
             if (err)
                 return res.status(422).json({message: {msgBody: "Some error occurred while saving", msgError: true}});
@@ -45,12 +45,12 @@ authRouter.post('/signin', (req, res) => {
                 }
             });
         if (user) {
-            const {_id, email, name, followers, following} = user;
+            const {_id, email, name, followers, following, pic} = user;
             const token = signToken(_id);
             res.cookie('access_token', token, {httpOnly: true, sameSite: true});
             res.status(200).json({
                 isAuthenticated: true,
-                user: {name, email, followers, following},
+                user: {name, email, pic, followers, following},
                 message: {msgBody: 'Successfully Signed In', msgError: false}
             });
         } else {
@@ -60,8 +60,8 @@ authRouter.post('/signin', (req, res) => {
 });
 
 authRouter.get('/authenticated', passport.authenticate('jwt', {session: false}), (req, res) => {
-    const {_id, name, email, followers, following} = req.user;
-    res.status(200).json({isAuthenticated: true, user: {_id, name, email, followers, following}})
+    const {_id, name, email, followers, following, pic} = req.user;
+    res.status(200).json({isAuthenticated: true, user: {_id, name, email, followers, following, pic}})
 });
 authRouter.get('/logout', passport.authenticate('jwt', {session: false}), (req, res) => {
     res.clearCookie('access_token');

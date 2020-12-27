@@ -14,6 +14,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    pic: {
+        type: String,
+        default: 'https://res.cloudinary.com/junaidsikander/image/upload/v1609053233/deault_mqrohv.png'
+    },
     followers: [{type: ObjectId, ref: 'User'}],
     following: [{type: ObjectId, ref: 'User'}]
 });
@@ -24,7 +28,7 @@ userSchema.pre('save', function (next) {
     bcrypt.hash(this.password, 10, (err, hashPassword) => {
         if (err)
             return next(err);
-        this.password = hashPassword
+        this.password = hashPassword;
         next();
     })
 });
@@ -34,10 +38,10 @@ userSchema.methods.comparePassword = function (password, cb) {
             return cb(err);
         else {
             if (!isMatch)
-                return cb(null, isMatch)
+                return cb(null, isMatch);
             return cb(null, this);
         }
     })
-}
+};
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.model('User', userSchema);

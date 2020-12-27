@@ -17,7 +17,7 @@ const Profile = () => {
                 <div>
                     <img className="image-container"
                          alt=""
-                         src="https://images.unsplash.com/photo-1595152772835-219674b2a8a6?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NjV8fHBlcnNvbnxlbnwwfDJ8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=60"
+                         src={user?.pic}
                     />
                 </div>
                 <div>
